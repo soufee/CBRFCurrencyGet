@@ -12,17 +12,36 @@ import java.util.List;
 public class MainJSONCurrencyParse {
     //https://www.cbr-xml-daily.ru/daily_json.js
 
-    public static void main(String[] args) throws IOException {
-        URL url = new URL("https://www.cbr-xml-daily.ru/daily_json.js");
-        InputStream stream = url.openStream();
-
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
+    public static void main(String[] args) {
+        URL url;
+        InputStream stream = null;
+        BufferedReader reader = null;
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < 314; i++) {
-            list.add(reader.readLine());
+        try {
+            url = new URL("https://www.cbr-xml-daily.ru/daily_json.js");
+            stream = url.openStream();
+
+
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+
+            String s;
+
+            while ((s = reader.readLine()) != null) {
+                list.add(s);
+            }
+        } catch (IOException e) {
+
+        } finally {
+            try {
+                stream.close();
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+
 
         for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
